@@ -14,19 +14,30 @@ public class GameManager : MonoBehaviour
     #endregion
     
     [SerializeField] float _rootVulnerableTime = 10;
+    [SerializeField] GameObject _rootsContainer;
+    [SerializeField] RootController [] _roots = new RootController[4];
+    [SerializeField] GameObject _core;
+    
 
     public float RootVulnerableTime { get => _rootVulnerableTime; set => _rootVulnerableTime = value; }
+    public RootController[] Roots { get => _roots; set => _roots = value; }
+    public GameObject Core { get => _core; set => _core = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _roots = _rootsContainer.GetComponentsInChildren<RootController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public RootController GetRandomRoot(){
+        int random = Random.Range(0, _roots.Length);
+        return _roots[random];
     }
 
     
