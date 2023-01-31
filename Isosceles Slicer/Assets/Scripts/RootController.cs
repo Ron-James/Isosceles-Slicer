@@ -7,18 +7,20 @@ public class RootController : MonoBehaviour
 {
     [SerializeField] Image _image;
     [SerializeField] BoxCollider2D _collider;
-    
+
     [Header("Growth Variables")]
     [Range(0, 1)][SerializeField] float _initialGrowth = 0.1f;
     [SerializeField] float _currentGrowth;
     [SerializeField] float _maxGrowthTime = 60;
+    [SerializeField] bool isVulnerable = false;
+
+    public bool IsVulnerable { get => isVulnerable; set => isVulnerable = value; }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        _currentGrowth = _initialGrowth;
-        ChangeSize(_currentGrowth);
+        ChangeSize(_initialGrowth);
         StartCoroutine(GrowRootRoutine(_maxGrowthTime));
     }
 
@@ -29,13 +31,14 @@ public class RootController : MonoBehaviour
 
 
     }
-    private void OnDisable() {
+    private void OnDisable()
+    {
         StopAllCoroutines();
     }
 
     public float CurrentRootLength()
     {
-        return _image.fillAmount;
+        return _currentGrowth;
     }
 
 
@@ -43,15 +46,18 @@ public class RootController : MonoBehaviour
     {
         float newFillAmount = amount;
 
-        if (amount > 1)
+        if (amount >= 1)
         {
             newFillAmount = 1;
+            
         }
-        else if (amount < 0)
+        else if (amount <= 0)
         {
             newFillAmount = 0;
+            StartVulnerablePeriod(GameManager.instance.RootVulnerableTime);
         }
         _image.fillAmount = newFillAmount;
+        _currentGrowth = newFillAmount;
 
 
 
@@ -75,21 +81,55 @@ public class RootController : MonoBehaviour
 
     }
 
-    IEnumerator GrowRootRoutine(float maxTime)
+    public void StartVulnerablePeriod(float period){
+        StartCoroutine(SetVulnerableRoutine(period));
+    }
+
+    IEnumerator SetVulnerableRoutine(float period)
     {
-        float rate = (1 - _initialGrowth) / (maxTime / Time.deltaTime);
+        float time = 0;
+        IsVulnerable = true;
         while (true)
         {
-            if (_currentGrowth >= 1)
+            if (time >= period)
             {
-                //Victory!
-                Debug.Log("Victory!");
+                IsVulnerable = false;
                 break;
             }
             else
             {
-                _currentGrowth += rate;
-                ChangeSize(_currentGrowth);
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+    }
+
+    IEnumerator GrowRootRoutine(float maxTime)
+    {
+        float time = 0;
+        //float rate = (1 - _initialGrowth) / (maxTime / Time.deltaTime);
+        while (true)
+        {
+
+            float rate = (1 - _initialGrowth) / (maxTime / Time.deltaTime);
+            //Debug.Log("Rate is " + rate);
+            if (_currentGrowth >= 1)
+            {
+                //Victory!
+                Debug.Log("Victory!");
+                Debug.Log("Time elapsed = " + time);
+                break;
+            }
+            else
+            {
+                time += Time.deltaTime;
+                if (!IsVulnerable)
+                {
+                    float newGrowth = _currentGrowth + rate;
+                    ChangeSize(newGrowth);
+                }
+
                 yield return null;
             }
         }

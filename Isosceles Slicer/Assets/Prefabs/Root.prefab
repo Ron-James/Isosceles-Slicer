@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4094904932140711228}
   m_Layer: 0
   m_Name: Root
-  m_TagString: Untagged
+  m_TagString: Root
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,10 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 4094904934039686388}
   _collider: {fileID: 4094904932906133108}
-  _maxGrowthTime: 60
   _initialGrowth: 0.1
   _currentGrowth: 0
-  rootFill: 1
+  _maxGrowthTime: 60
 --- !u!1 &4094904932833010763
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +164,7 @@ GameObject:
   - component: {fileID: 4094904932906133108}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Root
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
