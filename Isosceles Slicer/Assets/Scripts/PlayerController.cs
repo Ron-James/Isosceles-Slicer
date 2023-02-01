@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _dashTime = 1;
     [SerializeField] float _dashDistance = 5;
     [SerializeField] AnimationCurve _dashCurve;
+    [SerializeField] Transform _slicePoint;
 
 
 
