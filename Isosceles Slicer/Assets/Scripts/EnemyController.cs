@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float _breakForce = 10f;
     [SerializeField] float _gravityScale = 1;
     EnemyEvents _enemyEvents;
+
     Collider2D _collider;
 
 
@@ -27,7 +28,6 @@ public class EnemyController : MonoBehaviour
     private void Awake() {
         _enemyEvents = GetComponent<EnemyEvents>();
         _collider = GetComponent<Collider2D>();
-        
         
         _segments = _segmentsContainer.GetComponentsInChildren<Transform>();
         if (damage > 100)
