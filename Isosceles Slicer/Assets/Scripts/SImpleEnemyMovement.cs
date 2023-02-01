@@ -11,7 +11,7 @@ public class SImpleEnemyMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        
+        agent.updateRotation = false;
         //agent.UpdateAxis = false;
     }
 

@@ -40,6 +40,20 @@ public class GameManager : MonoBehaviour
         return _roots[random];
     }
 
+    public RootController GetClosestRoot(Vector3 position){
+        RootController closestRoot = _roots[0];
+        float smallestDistance = Vector3.Distance(position, closestRoot.transform.position);
+        foreach(RootController item in _roots){
+            float distance = Vector3.Distance(position, item.transform.position);
+            if(distance < smallestDistance){
+                smallestDistance = distance;
+                closestRoot = item;
+            }
+
+        }
+        return closestRoot;
+    }
+
     
 
 }

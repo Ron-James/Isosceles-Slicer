@@ -112,7 +112,8 @@ public class RootController : MonoBehaviour
         while (true)
         {
 
-            float rate = (1 - _initialGrowth) / (maxTime / Time.deltaTime);
+            //float rate = (1 - _initialGrowth) / (maxTime / Time.deltaTime);
+            float rate = (_currentGrowth) / ((maxTime*0.43478f) / Time.deltaTime);
             //Debug.Log("Rate is " + rate);
             if (_currentGrowth >= 1)
             {

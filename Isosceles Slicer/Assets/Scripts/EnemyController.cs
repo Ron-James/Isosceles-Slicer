@@ -9,18 +9,23 @@ public class EnemyController : MonoBehaviour
     [SerializeField] GameObject _segmentsContainer;
     [SerializeField] float damage = 5;
     [SerializeField] RootController targetRoot;
+
+
+    [Header("Slice Variable")]
+    [SerializeField] Rigidbody2D _rightHalf; 
+    [SerializeField] Rigidbody2D _leftHalf;
+    [SerializeField] float _breakForce = 10f;
+    [SerializeField] float _gravityScale = 1;
     EnemyEvents _enemyEvents;
     Collider2D _collider;
+
+
 
     
 
     public RootController TargetRoot { get => targetRoot; set => targetRoot = value; }
     private void Awake() {
         _enemyEvents = GetComponent<EnemyEvents>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
         _collider = GetComponent<Collider2D>();
         
         
@@ -32,7 +37,12 @@ public class EnemyController : MonoBehaviour
 
         _enemyEvents.onEnemyEnable += OnEnemyEnable;
         _enemyEvents.onEnemyDisable += OnEnemyDisable;
-        //EnemyDisable();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+        _enemyEvents.EnemyDisable();
     }
 
     // Update is called once per frame
@@ -45,7 +55,9 @@ public class EnemyController : MonoBehaviour
         SetSegmentSpriteActive(true);
     }
     private void OnEnemyDisable(){
+        transform.SetParent(EnemySpawner.instance.InactiveContainer.transform);
         _collider.enabled = false;
+        //transform.position = Vector3.zero;
         SetSegmentSpriteActive(false);
     }
     public void SetSegmentSpriteActive(bool active){
@@ -56,6 +68,9 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.tag)
@@ -63,7 +78,7 @@ public class EnemyController : MonoBehaviour
             case "Root":
                 Debug.Log("connected with root");
                 RootController rootController = other.gameObject.GetComponentInParent<RootController>();
-                if (rootController == targetRoot && !rootController.IsVulnerable)
+                if (rootController == targetRoot && !rootController.IsVulnerable && _enemyEvents.IsActive)
                 {
                     float damagePercent = damage / 100;
                     float currentRootGrowth = rootController.CurrentRootLength();
@@ -73,13 +88,17 @@ public class EnemyController : MonoBehaviour
                 _enemyEvents.EnemyDisable();
                 break;
             case "Core":
-                if(targetRoot.IsVulnerable){
+                if(targetRoot.IsVulnerable && _enemyEvents.IsActive){
                     Debug.Log("Game Over");
                     _enemyEvents.EnemyDisable();
                 }
             break;
         }
     }
+
+    
+
+    
     
 
     

@@ -5,6 +5,9 @@ using System;
 
 public class EnemyEvents : MonoBehaviour
 {
+    [SerializeField] bool isActive;
+
+    public bool IsActive { get => isActive; set => isActive = value; }
     #region Events
     public event Action onEnemyEnable;
     public event Action onEnemyDisable;
@@ -12,6 +15,7 @@ public class EnemyEvents : MonoBehaviour
     {
         if (onEnemyEnable != null)
         {
+            isActive = true;
             onEnemyEnable();
         }
     }
@@ -19,6 +23,7 @@ public class EnemyEvents : MonoBehaviour
     {
         if (onEnemyEnable != null)
         {
+            isActive = false;
             onEnemyDisable();
         }
     }
@@ -33,5 +38,9 @@ public class EnemyEvents : MonoBehaviour
     void Update()
     {
         
+        if(Input.GetKeyDown(KeyCode.G)){
+            EnemyEnable();
+            Debug.Log("Enabled");
+        }
     }
 }

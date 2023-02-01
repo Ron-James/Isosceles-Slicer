@@ -10,41 +10,50 @@ public class EnemyNavigation : MonoBehaviour
     EnemyController _enemyController;
     NavMeshAgent _agent;
     EnemyEvents _enemyEvents;
-    private void Awake() {
+    private void Awake()
+    {
         _enemyEvents = GetComponent<EnemyEvents>();
         _enemyEvents.onEnemyEnable += OnEnemyEnable;
+
+
+        _agent = GetComponent<NavMeshAgent>();
+        _enemyController = GetComponent<EnemyController>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        _agent = GetComponent<NavMeshAgent>();
-        _enemyController = GetComponent<EnemyController>();
-        
+
+
         //agent.UpdateAxis = false;
     }
 
-    private void OnEnemyEnable() {
+    private void OnEnemyEnable()
+    {
+        _agent.enabled = true;
         _agent.speed = _speed;
-        RootController root = GameManager.instance.GetRandomRoot();
-        _enemyController.TargetRoot = root;
-        if(!root.IsVulnerable){
+        RootController root = _enemyController.TargetRoot;
+        if (!root.IsVulnerable)
+        {
             target = root.transform;
         }
-        else{
+        else
+        {
             target = GameManager.instance.Core.transform;
         }
-        _agent.SetDestination(target.position); 
+        _agent.SetDestination(target.position);
     }
 
-    private void onEnemyDisable(){
+    private void onEnemyDisable()
+    {
         _agent.speed = 0;
+        _agent.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-              
-        transform.rotation = Quaternion.Euler(Vector3.zero);
+
+
+        //transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 }
