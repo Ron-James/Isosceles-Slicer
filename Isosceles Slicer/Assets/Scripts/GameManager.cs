@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _victoryScreen;
     [SerializeField] GameObject _gameOverScreen;
 
+    [SerializeField] Sound _gameOverSound;
+    [SerializeField] Sound _winSound;
+
+
 
 
     public float RootVulnerableTime { get => _rootVulnerableTime; set => _rootVulnerableTime = value; }
@@ -53,14 +57,18 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         _victoryScreen.SetActive(true);
         _gameOverScreen.SetActive(false);
-        
+        _winSound.src = GetComponent<AudioSource>();
+        _winSound.PlayOnce();
     }
+    
 
     public void GameOver()
     {
         Time.timeScale = 0;
         _victoryScreen.SetActive(false);
         _gameOverScreen.SetActive(true);
+        _gameOverSound.src = GetComponent<AudioSource>();
+        _gameOverSound.PlayOnce();
     }
 
 
