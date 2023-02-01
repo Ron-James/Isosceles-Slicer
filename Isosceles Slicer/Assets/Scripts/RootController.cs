@@ -118,6 +118,7 @@ public class RootController : MonoBehaviour
             if (_currentGrowth >= 1)
             {
                 //Victory!
+                GameManager.instance.Victory();
                 Debug.Log("Victory!");
                 Debug.Log("Time elapsed = " + time);
                 break;

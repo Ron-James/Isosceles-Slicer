@@ -90,6 +90,7 @@ public class EnemyController : MonoBehaviour
             case "Core":
                 if(targetRoot.IsVulnerable && _enemyEvents.IsActive){
                     Debug.Log("Game Over");
+                    GameManager.instance.GameOver();
                     _enemyEvents.EnemyDisable();
                 }
             break;
