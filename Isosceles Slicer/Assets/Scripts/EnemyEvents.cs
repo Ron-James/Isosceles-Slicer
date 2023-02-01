@@ -38,9 +38,6 @@ public class EnemyEvents : MonoBehaviour
     void Update()
     {
         
-        if(Input.GetKeyDown(KeyCode.G)){
-            EnemyEnable();
-            Debug.Log("Enabled");
-        }
+        
     }
 }

@@ -82,7 +82,7 @@ public class GameInputEventSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _movementState != MovementState.dashing)
+        if (Input.GetButtonDown("XboxA") && _movementState != MovementState.dashing)
         {
             instance.PlayerDashEnter();
         }

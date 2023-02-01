@@ -17,7 +17,7 @@ public class EnemySlicer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _enemyEvents.EnemyEnable();
+        
     }
 
     // Update is called once per frame
@@ -28,6 +28,9 @@ public class EnemySlicer : MonoBehaviour
         }
     }
 
+    public void SliceEnemy(){
+        StartCoroutine(Slice(20));
+    }
     IEnumerator Slice(float duration){
         _rightHalf.simulated = true;
         _leftHalf.simulated = true;

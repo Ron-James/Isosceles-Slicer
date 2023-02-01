@@ -14,6 +14,7 @@ public class EnemyNavigation : MonoBehaviour
     {
         _enemyEvents = GetComponent<EnemyEvents>();
         _enemyEvents.onEnemyEnable += OnEnemyEnable;
+        _enemyEvents.onEnemyDisable += onEnemyDisable;
 
 
         _agent = GetComponent<NavMeshAgent>();

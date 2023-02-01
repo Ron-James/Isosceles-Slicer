@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4576644236049461687}
   - component: {fileID: 8767579529598227195}
+  - component: {fileID: 4042668118687688459}
   m_Layer: 0
   m_Name: SliceTrigger
   m_TagString: Untagged
@@ -25,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126702389923227460}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.571, z: 0}
-  m_LocalScale: {x: 0.05058336, y: 0.05058336, z: 0.05058336}
+  m_LocalPosition: {x: -0, y: 0.46, z: 0}
+  m_LocalScale: {x: 0.16057181, y: 0.24487202, z: 0.16057181}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9154596172833107359}
@@ -48,6 +49,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &4042668118687688459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126702389923227460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714861db4fbe2d7448476e30ed63379e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9154596172154869597
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61df3fd11fbcdd40a5f0073cc434d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maximumMoveSpeed: 7
+  _maximumMoveSpeed: 5
   _minimumMoveSpeed: 0
   _speedUpDuration: 0.1
   _rotationSpeed: 1000000
@@ -123,7 +136,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _dashTime: 0.3
-  _dashDistance: 5
+  _dashDistance: 2
   _dashCurve:
     serializedVersion: 2
     m_Curve:

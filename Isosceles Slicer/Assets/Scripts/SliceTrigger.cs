@@ -17,6 +17,10 @@ public class SliceTrigger : MonoBehaviour
         
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        
+        if(GameInputEventSystem.instance.MovementState == MovementState.dashing && other.tag == "Enemy"){
+            Debug.Log("Sliced Enemy");
+            EnemySlicer enemySlicer = other.gameObject.GetComponentInParent<EnemySlicer>();
+            enemySlicer.SliceEnemy();
+        }
     }
 }
