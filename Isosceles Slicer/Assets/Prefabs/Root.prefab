@@ -51,6 +51,7 @@ MonoBehaviour:
   _initialGrowth: 0.1
   _currentGrowth: 0
   _maxGrowthTime: 60
+  isVulnerable: 0
 --- !u!1 &4094904932833010763
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +247,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.4, y: 1}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4094904934039686389
 CanvasRenderer:
@@ -276,7 +277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9c3d1d01de4e80846b4624d4b3b921df, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
