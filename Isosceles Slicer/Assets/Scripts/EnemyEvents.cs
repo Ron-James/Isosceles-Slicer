@@ -9,14 +9,22 @@ public class EnemyEvents : MonoBehaviour
 
     public bool IsActive { get => isActive; set => isActive = value; }
     #region Events
-    public event Action onEnemyEnable;
+    public event Action<RootController> onEnemyEnable;
     public event Action onEnemyDisable;
-    public void EnemyEnable()
+    public event Action onEnemyDeath;
+
+    public void EnemyDeath(){
+        if(onEnemyDeath != null){
+            isActive = false;
+            onEnemyDeath();
+        }
+    }
+    public void EnemyEnable(RootController targetRoot)
     {
         if (onEnemyEnable != null)
         {
             isActive = true;
-            onEnemyEnable();
+            onEnemyEnable(targetRoot);
         }
     }
     public void EnemyDisable()

@@ -32,6 +32,7 @@ public class EnemySlicer : MonoBehaviour
         StartCoroutine(Slice(20));
     }
     IEnumerator Slice(float duration){
+        _enemyEvents.EnemyDeath();
         _rightHalf.simulated = true;
         _leftHalf.simulated = true;
         _leftHalf.gravityScale = _gravityScale;

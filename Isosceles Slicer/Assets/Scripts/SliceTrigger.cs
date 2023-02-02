@@ -5,7 +5,11 @@ using UnityEngine;
 public class SliceTrigger : MonoBehaviour
 {
     PlayerController _playerController;
+    
     // Start is called before the first frame update
+    private void Awake() {
+        
+    }
     void Start()
     {
         _playerController = GetComponentInParent<PlayerController>();

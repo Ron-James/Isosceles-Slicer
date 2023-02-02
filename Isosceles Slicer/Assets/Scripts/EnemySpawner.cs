@@ -47,11 +47,11 @@ public class EnemySpawner : MonoBehaviour
         float angle = Random.Range(0, 2 * Mathf.PI);
         Vector3 position = new Vector3(_spawnDistance * Mathf.Cos(angle), _spawnDistance * Mathf.Sin(angle), 0);
         EnemyEvents enemy = _inactiveContainer.GetComponentsInChildren<EnemyEvents>()[0];
-        RootController closestRoot = GameManager.instance.GetClosestRoot(position);
-        enemy.GetComponent<EnemyController>().TargetRoot = closestRoot;
+        RootController targetRoot = GameManager.instance.GetRandomRoot();
+        //enemy.GetComponent<EnemyController>().TargetRoot = closestRoot;
         enemy.transform.position = position;
         enemy.transform.SetParent(_activeContainer.transform);
-        enemy.EnemyEnable();
+        enemy.EnemyEnable(targetRoot);
     }
 
 

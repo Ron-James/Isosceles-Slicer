@@ -28,14 +28,14 @@ public class EnemyNavigation : MonoBehaviour
         //agent.UpdateAxis = false;
     }
 
-    private void OnEnemyEnable()
+    private void OnEnemyEnable(RootController targetRoot)
     {
         _agent.enabled = true;
         _agent.speed = _speed;
-        RootController root = _enemyController.TargetRoot;
-        if (!root.IsVulnerable)
+        
+        if (!targetRoot.IsVulnerable)
         {
-            target = root.transform;
+            target = targetRoot.transform;
         }
         else
         {
