@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _dashTime = 1;
     [SerializeField] float _dashDistance = 5;
     [SerializeField] AnimationCurve _dashCurve;
-    [SerializeField] Transform _slicePoint;
+    [SerializeField] GameObject _dashColor;
+    [SerializeField] Sound _dashSound;
 
 
 
@@ -26,6 +27,9 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D _rigidbody;
 
+    private void Awake() {
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
         GameInputEventSystem.instance.onMovementEnter += onMovementEnter;
         GameInputEventSystem.instance.onMovementExit += onMovementExit;
         GameInputEventSystem.instance.onDashExit += onDashExit;
+        _dashSound.src = GetComponent<AudioSource>();
     }
 
 
@@ -138,10 +143,13 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(DashRoutine(_dashTime, _dashDistance));
     }
     IEnumerator DashRoutine(float duration, float distance){
+        _dashSound.PlayOnce();
         float time = 0; 
         Vector3 initialPosition = transform.position;
+        _dashColor.SetActive(true);
         while(true){
             if(time >= duration){
+                _dashColor.SetActive(false);
                 transform.position = initialPosition + (transform.up * _dashDistance);
                 GameInputEventSystem.instance.PlayerDashExit();
                 break;

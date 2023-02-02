@@ -144,4 +144,4 @@ MonoBehaviour:
   _music:
     clip: {fileID: 8300000, guid: 86cec3f320fea304397581e40d2dae89, type: 3}
     src: {fileID: 0}
-    volume: 0.69
+    volume: 0.7

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Sound _gameOverSound;
     [SerializeField] Sound _winSound;
+    [SerializeField] MusicBox _musicBox;
 
 
 
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public void Victory()
     {
+        _musicBox.StopMusic();
         Time.timeScale = 0;
         _victoryScreen.SetActive(true);
         _gameOverScreen.SetActive(false);
@@ -64,6 +66,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        _musicBox.StopMusic();
         Time.timeScale = 0;
         _victoryScreen.SetActive(false);
         _gameOverScreen.SetActive(true);
@@ -87,6 +90,55 @@ public class GameManager : MonoBehaviour
 
         }
         return closestRoot;
+    }
+
+    public RootController LongestRoot(){
+        float longest = _roots[0].CurrentRootLength();
+        RootController longestRoot = _roots[0];
+
+        foreach(RootController item in _roots){
+            if(item.CurrentRootLength() > longest){
+                longest = item.CurrentRootLength();
+                longestRoot = item;
+            }
+        }
+
+        return longestRoot;
+    }
+
+    public RootController ShortestRoot(){
+        float shortest = _roots[0].CurrentRootLength();
+        RootController shortestRoot = _roots[0];
+
+        foreach(RootController item in _roots){
+            if(item.CurrentRootLength() > shortest){
+                shortest = item.CurrentRootLength();
+                shortestRoot = item;
+            }
+        }
+
+        return shortestRoot;
+    }
+
+    public RootController GetTargetRoot(){
+        int random = Random.Range(0, 3);
+        RootController root;
+        switch(random){
+            default:
+                root = GetRandomRoot();
+            break;
+            case 0:
+                root = ShortestRoot();
+            break;
+            case 1:
+                root = LongestRoot();
+            break;
+            case 2:
+                root = GetRandomRoot();
+            break;
+        }
+
+        return root;
     }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySlicer : MonoBehaviour
 {
     [Header("Slice Variable")]
-    [SerializeField] Rigidbody2D _rightHalf; 
+    [SerializeField] Rigidbody2D _rightHalf;
     [SerializeField] Rigidbody2D _leftHalf;
     [SerializeField] float _breakForce = 10f;
     [SerializeField] float _gravityScale = 1;
@@ -13,9 +13,12 @@ public class EnemySlicer : MonoBehaviour
     [SerializeField] Sound _sliceSound;
 
     EnemyEvents _enemyEvents;
-    private void Awake() {
+    private void Awake()
+    {
         _enemyEvents = GetComponent<EnemyEvents>();
         _enemyEvents.onEnemyDeath += OnEnemyDeath;
+        _enemyEvents.onEnemyEnable += OnEnemyEnable;
+        _enemyEvents.onEnemyDisable += OnEnemyDisable;
     }
     // Start is called before the first frame update
     void Start()
@@ -26,41 +29,82 @@ public class EnemySlicer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.S)){
+        if (Input.GetKeyDown(KeyCode.S))
+        {
             StartCoroutine(Slice(20));
         }
     }
 
-    public void SliceEnemy(){
-        StartCoroutine(Slice(20));
+    public void SliceEnemy()
+    {
+        StartCoroutine(Slice(5));
     }
 
-    private void OnEnemyDeath(){
+    public void SetStatic()
+    {
+        _leftHalf.bodyType = RigidbodyType2D.Static;
+        _rightHalf.bodyType = RigidbodyType2D.Static;
+
+        _rightHalf.gravityScale = 0;
+        _leftHalf.gravityScale = 0;
+    }
+    public void SetDynamic()
+    {
+        _leftHalf.bodyType = RigidbodyType2D.Dynamic;
+        _rightHalf.bodyType = RigidbodyType2D.Dynamic;
+
+        _rightHalf.gravityScale = _gravityScale;
+        _leftHalf.gravityScale = _gravityScale;
+    }
+
+    public void ResetEnemyHalves(){
+        SetStatic();
+        
+        //_rightHalf.MovePosition(_rightHalf.transform.TransformPoint(Vector3.zero));
+        //_leftHalf.MovePosition(_leftHalf.transform.TransformPoint(Vector3.zero));
+        _rightHalf.transform.localPosition = Vector3.zero;
+        _leftHalf.transform.localPosition = Vector3.zero;
+
+        _rightHalf.transform.localEulerAngles = Vector3.zero;
+        _leftHalf.transform.localEulerAngles = Vector3.zero;
+    }
+    private void OnEnemyEnable(RootController targetRoot)
+    {
+        SetStatic();
+        ResetEnemyHalves();
+    }
+    private void OnEnemyDeath()
+    {
 
     }
-    IEnumerator Slice(float duration){
-        _enemyEvents.EnemyDeath();
-        _rightHalf.simulated = true;
-        _leftHalf.simulated = true;
+
+    private void OnEnemyDisable()
+    {
+        //SetStatic();
+        //ResetEnemyHalves();
+    }
+
+    IEnumerator Slice(float duration)
+    {
+        _sliceSound.PlayOnce();
+        SetDynamic();
         _leftHalf.gravityScale = _gravityScale;
         _rightHalf.gravityScale = _gravityScale;
 
         _rightHalf.AddForce(transform.right * _breakForce);
         _leftHalf.AddForce(-transform.right * _breakForce);
         float time = 0;
-
-        while(true){
-            if(time >= duration){
-                _rightHalf.simulated = false;
-                _leftHalf.simulated = false;
-                _leftHalf.gravityScale = 0;
-                _rightHalf.gravityScale = 0;
-                _rightHalf.transform.localPosition = Vector3.zero;
-                _leftHalf.transform.localPosition = Vector3.zero;
+        _enemyEvents.EnemyDeath();
+        while (true)
+        {
+            if (time >= duration)
+            {
+                ResetEnemyHalves();
                 _enemyEvents.EnemyDisable();
                 break;
             }
-            else{
+            else
+            {
                 time += Time.deltaTime;
                 yield return null;
             }

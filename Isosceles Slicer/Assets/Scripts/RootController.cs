@@ -13,6 +13,7 @@ public class RootController : MonoBehaviour
     [SerializeField] float _currentGrowth;
     [SerializeField] float _maxGrowthTime = 60;
     [SerializeField] bool isVulnerable = false;
+    
 
     public bool IsVulnerable { get => isVulnerable; set => isVulnerable = value; }
 
@@ -22,6 +23,7 @@ public class RootController : MonoBehaviour
     {
         ChangeSize(_initialGrowth);
         StartCoroutine(GrowRootRoutine(_maxGrowthTime));
+        
     }
 
     // Update is called once per frame

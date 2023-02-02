@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] GameObject _segmentsContainer;
     [SerializeField] float _damage = 5;
     [SerializeField] RootController _targetRoot;
+    [SerializeField] Sound _damageSound;
 
 
     [Header("Slice Variable")]
@@ -42,7 +43,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _damageSound.src = GetComponent<AudioSource>();
         _enemyEvents.EnemyDisable();
     }
 
@@ -88,12 +89,14 @@ public class EnemyController : MonoBehaviour
                 RootController rootController = other.gameObject.GetComponentInParent<RootController>();
                 if (rootController == _targetRoot && !rootController.IsVulnerable && _enemyEvents.IsActive)
                 {
+                    _damageSound.PlayOnce();
                     float damagePercent = _damage / 100;
                     float currentRootGrowth = _targetRoot.CurrentRootLength();
                     float damagedRootGrowth = currentRootGrowth - damagePercent;
                     _targetRoot.ChangeSize(damagedRootGrowth);
+                    _enemyEvents.EnemyDisable();
                 }
-                _enemyEvents.EnemyDisable();
+                
                 break;
             case "Core":
                 if(_targetRoot.IsVulnerable){
@@ -105,10 +108,12 @@ public class EnemyController : MonoBehaviour
                     
                 }
                 else{
+                    _damageSound.PlayOnce();
                     float damagePercent = _damage / 100;
                     float currentRootGrowth = _targetRoot.CurrentRootLength();
                     float damagedRootGrowth = currentRootGrowth - damagePercent;
                     _targetRoot.ChangeSize(damagedRootGrowth);
+                    _enemyEvents.EnemyDisable();
                 }
             break;
         }
