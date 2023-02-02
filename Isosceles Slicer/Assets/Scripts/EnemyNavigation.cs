@@ -15,6 +15,7 @@ public class EnemyNavigation : MonoBehaviour
         _enemyEvents = GetComponent<EnemyEvents>();
         _enemyEvents.onEnemyEnable += OnEnemyEnable;
         _enemyEvents.onEnemyDisable += onEnemyDisable;
+        _enemyEvents.onEnemyDeath += OnEnemyDeath;
 
 
         _agent = GetComponent<NavMeshAgent>();
@@ -50,6 +51,10 @@ public class EnemyNavigation : MonoBehaviour
         _agent.enabled = false;
     }
 
+    private void OnEnemyDeath(){
+        _agent.speed = 0;
+        _agent.enabled = false;
+    }
     // Update is called once per frame
     void Update()
     {

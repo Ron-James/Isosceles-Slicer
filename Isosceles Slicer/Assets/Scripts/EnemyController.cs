@@ -37,6 +37,7 @@ public class EnemyController : MonoBehaviour
 
         _enemyEvents.onEnemyEnable += OnEnemyEnable;
         _enemyEvents.onEnemyDisable += OnEnemyDisable;
+        _enemyEvents.onEnemyDeath += OnEnemyDeath;
     }
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,11 @@ public class EnemyController : MonoBehaviour
         this._targetRoot = targetRoot;
         _collider.enabled = true;
         SetSegmentSpriteActive(true);
+    }
+
+    private void OnEnemyDeath(){
+        _collider.enabled = false;
+        transform.SetParent(EnemySpawner.instance.InactiveContainer.transform);
     }
     private void OnEnemyDisable(){
         transform.SetParent(EnemySpawner.instance.InactiveContainer.transform);
@@ -83,17 +89,26 @@ public class EnemyController : MonoBehaviour
                 if (rootController == _targetRoot && !rootController.IsVulnerable && _enemyEvents.IsActive)
                 {
                     float damagePercent = _damage / 100;
-                    float currentRootGrowth = rootController.CurrentRootLength();
+                    float currentRootGrowth = _targetRoot.CurrentRootLength();
                     float damagedRootGrowth = currentRootGrowth - damagePercent;
-                    rootController.ChangeSize(damagedRootGrowth);
+                    _targetRoot.ChangeSize(damagedRootGrowth);
                 }
                 _enemyEvents.EnemyDisable();
                 break;
             case "Core":
-                if(_targetRoot.IsVulnerable && _enemyEvents.IsActive){
-                    Debug.Log("Game Over");
-                    GameManager.instance.GameOver();
-                    _enemyEvents.EnemyDisable();
+                if(_targetRoot.IsVulnerable){
+                    if(_enemyEvents.IsActive){
+                        Debug.Log("Game Over");
+                        GameManager.instance.GameOver();
+                        _enemyEvents.EnemyDisable();
+                    }
+                    
+                }
+                else{
+                    float damagePercent = _damage / 100;
+                    float currentRootGrowth = _targetRoot.CurrentRootLength();
+                    float damagedRootGrowth = currentRootGrowth - damagePercent;
+                    _targetRoot.ChangeSize(damagedRootGrowth);
                 }
             break;
         }

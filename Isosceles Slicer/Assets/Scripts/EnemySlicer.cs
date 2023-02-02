@@ -10,14 +10,17 @@ public class EnemySlicer : MonoBehaviour
     [SerializeField] float _breakForce = 10f;
     [SerializeField] float _gravityScale = 1;
 
+    [SerializeField] Sound _sliceSound;
+
     EnemyEvents _enemyEvents;
     private void Awake() {
         _enemyEvents = GetComponent<EnemyEvents>();
+        _enemyEvents.onEnemyDeath += OnEnemyDeath;
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        _sliceSound.src = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,6 +33,10 @@ public class EnemySlicer : MonoBehaviour
 
     public void SliceEnemy(){
         StartCoroutine(Slice(20));
+    }
+
+    private void OnEnemyDeath(){
+
     }
     IEnumerator Slice(float duration){
         _enemyEvents.EnemyDeath();
