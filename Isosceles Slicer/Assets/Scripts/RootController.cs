@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class RootController : MonoBehaviour
 {
     [SerializeField] Image _image;
+    [SerializeField] Image _redImage;
+    private Coroutine _damageIndicatorRoutine;
+    [SerializeField] AnimationCurve _damageIndicatorCurve;
     [SerializeField] BoxCollider2D _collider;
 
     [Header("Growth Variables")]
@@ -13,7 +16,7 @@ public class RootController : MonoBehaviour
     [SerializeField] float _currentGrowth;
     [SerializeField] float _maxGrowthTime = 60;
     [SerializeField] bool isVulnerable = false;
-    
+
 
     public bool IsVulnerable { get => isVulnerable; set => isVulnerable = value; }
 
@@ -23,7 +26,7 @@ public class RootController : MonoBehaviour
     {
         ChangeSize(_initialGrowth);
         StartCoroutine(GrowRootRoutine(_maxGrowthTime));
-        
+
     }
 
     // Update is called once per frame
@@ -51,7 +54,7 @@ public class RootController : MonoBehaviour
         if (amount >= 1)
         {
             newFillAmount = 1;
-            
+
         }
         else if (amount <= 0)
         {
@@ -59,6 +62,7 @@ public class RootController : MonoBehaviour
             StartVulnerablePeriod(GameManager.instance.RootVulnerableTime);
         }
         _image.fillAmount = newFillAmount;
+        _redImage.fillAmount = newFillAmount;
         _currentGrowth = newFillAmount;
 
 
@@ -83,7 +87,8 @@ public class RootController : MonoBehaviour
 
     }
 
-    public void StartVulnerablePeriod(float period){
+    public void StartVulnerablePeriod(float period)
+    {
         StartCoroutine(SetVulnerableRoutine(period));
     }
 
@@ -95,7 +100,7 @@ public class RootController : MonoBehaviour
         {
             if (time >= period)
             {
-                _currentGrowth =_initialGrowth;
+                _currentGrowth = _initialGrowth;
                 IsVulnerable = false;
                 break;
             }
@@ -108,6 +113,36 @@ public class RootController : MonoBehaviour
 
     }
 
+    public void IndicateDamage(float duration)
+    {
+        Debug.Log("Damage Indicator");
+        StartCoroutine(DamageIndicatorRoutine(duration));
+    }
+    IEnumerator DamageIndicatorRoutine(float duration)
+    {
+        float time = 0;
+        Color color = _redImage.color;
+        
+        while (true)
+        {
+            if (time >= duration)
+            {
+                color.a = 0;
+                _redImage.color = color;
+                break;
+            }
+            else
+            {
+                time += Time.deltaTime;
+                float ratio = time / duration;
+                color = _redImage.color;
+                color.a = _damageIndicatorCurve.Evaluate(ratio);
+                _redImage.color = color;
+                yield return null;
+            }
+        }
+    }
+
     IEnumerator GrowRootRoutine(float maxTime)
     {
         float time = 0;
@@ -116,7 +151,7 @@ public class RootController : MonoBehaviour
         {
 
             //float rate = (1 - _initialGrowth) / (maxTime / Time.deltaTime);
-            float rate = (_currentGrowth) / ((maxTime*0.43478f) / Time.deltaTime);
+            float rate = (_currentGrowth) / ((maxTime * 0.43478f) / Time.deltaTime);
             //Debug.Log("Rate is " + rate);
             if (_currentGrowth >= 1)
             {
