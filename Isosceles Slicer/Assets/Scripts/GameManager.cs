@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject _victoryScreen;
     [SerializeField] GameObject _gameOverScreen;
+    [SerializeField] GameObject _pauseScreen;
+
+    public static bool isPaused;
 
     [SerializeField] Sound _gameOverSound;
     [SerializeField] Sound _winSound;
@@ -35,6 +38,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Resume();
         Time.timeScale = 1;
         _roots = _rootsContainer.GetComponentsInChildren<RootController>();
         _victoryScreen.SetActive(false);
@@ -44,7 +48,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetButtonDown("Cancel")){
+            if(!isPaused){
+                PauseGame();
+            }
+            else{
+                Resume();
+            }
+           
+        }
     }
 
     public RootController GetRandomRoot()
@@ -139,6 +151,19 @@ public class GameManager : MonoBehaviour
         }
 
         return root;
+    }
+
+    public void PauseGame(){
+        isPaused = true;
+        Time.timeScale = 0;
+        _pauseScreen.SetActive(true);
+
+    }
+
+    public void Resume(){
+        isPaused = false;
+        Time.timeScale = 1;
+        _pauseScreen.SetActive(false);
     }
 
 

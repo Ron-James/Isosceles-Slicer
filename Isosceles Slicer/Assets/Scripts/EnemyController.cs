@@ -11,12 +11,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] RootController _targetRoot;
     [SerializeField] Sound _damageSound;
 
-
-    [Header("Slice Variable")]
-    [SerializeField] Rigidbody2D _rightHalf; 
-    [SerializeField] Rigidbody2D _leftHalf;
-    [SerializeField] float _breakForce = 10f;
-    [SerializeField] float _gravityScale = 1;
     EnemyEvents _enemyEvents;
 
     Collider2D _collider;

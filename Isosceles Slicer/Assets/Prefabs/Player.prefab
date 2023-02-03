@@ -320,6 +320,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _maxHorizontalMovement: 9.5
+  _maxVerticalMovement: 5
   _dashTime: 0.3
   _dashDistance: 2.7
   _dashCurve:

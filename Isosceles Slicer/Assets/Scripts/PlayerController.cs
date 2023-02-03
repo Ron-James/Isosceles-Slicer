@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _rotationSpeed = 1f;
     [SerializeField] AnimationCurve _speedUpCurve;
 
+    [SerializeField] float _maxHorizontalMovement = 6;
+    [SerializeField] float _maxVerticalMovement = 10;
+
 
     [Header("Dash Configuration")]
     [SerializeField] float _dashTime = 1;
@@ -86,6 +89,9 @@ public class PlayerController : MonoBehaviour
             //Quaternion targetRotation = Quaternion.LookRotation(transform.position + direction.normalized, Vector3.forward);
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             Vector3 movePosition = transform.position + (distance * direction);
+            float verticalMovePosition = Mathf.Clamp(movePosition.y, -_maxVerticalMovement, _maxVerticalMovement);
+            float horizontalMovePosition = Mathf.Clamp(movePosition.x, -_maxHorizontalMovement, _maxHorizontalMovement);
+            movePosition = new Vector3(horizontalMovePosition, verticalMovePosition, 0); 
             _rigidbody.MovePosition(movePosition);
         }
         else
@@ -164,5 +170,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
 }
 

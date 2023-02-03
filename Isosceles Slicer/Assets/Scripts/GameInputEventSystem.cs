@@ -20,14 +20,13 @@ public class GameInputEventSystem : MonoBehaviour
     #endregion
 
     #region Dash_Events
-    public static bool isDashing;
     public event Action onDashEnter;
     public event Action onDashExit;
     public void PlayerDashEnter()
     {
         if (onDashEnter != null)
         {
-            isDashing = true;
+            
             _movementState = MovementState.dashing;
             onDashEnter();
         }
@@ -44,7 +43,7 @@ public class GameInputEventSystem : MonoBehaviour
                 Debug.Log("Is not still moving");
                 _movementState = MovementState.stationary;
             }
-            isDashing = false;
+            
             onDashExit();
         }
     }
@@ -53,6 +52,7 @@ public class GameInputEventSystem : MonoBehaviour
 
     #region Movement_Events
     public static Vector3 moveDirection;
+    [SerializeField] Vector3 currentDirection;
     public static bool isMoving;
 
     public MovementState MovementState { get => _movementState; set => _movementState = value; }
@@ -82,7 +82,8 @@ public class GameInputEventSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("XboxA") && _movementState != MovementState.dashing)
+        currentDirection = moveDirection;
+        if (Input.GetButtonDown("Submit") && _movementState != MovementState.dashing)
         {
             instance.PlayerDashEnter();
         }
@@ -101,8 +102,7 @@ public class GameInputEventSystem : MonoBehaviour
             return;
         }
         else{
-            moveDirection = new Vector3(xMovement, yMovement, 0);
-            moveDirection = moveDirection.normalized;
+            moveDirection = new Vector3(xMovement, yMovement, 0).normalized;
         }
         
 
