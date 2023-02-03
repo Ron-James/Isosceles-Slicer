@@ -558,16 +558,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _segments: []
   _segmentsContainer: {fileID: 814584419897713612}
-  _damage: 7
+  _damage: 6
   _targetRoot: {fileID: 0}
   _damageSound:
     clip: {fileID: 8300000, guid: 93c3c33ba8fa5bd45bdee434035f397c, type: 3}
     src: {fileID: 0}
-    volume: 0.65
-  _rightHalf: {fileID: 3388877407889408646}
-  _leftHalf: {fileID: 3933536649732443007}
-  _breakForce: 10
-  _gravityScale: 1
+    volume: 0.8
 --- !u!50 &9206528925701702515
 Rigidbody2D:
   serializedVersion: 4
@@ -624,7 +620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  _speed: 2.9
+  _speed: 2.8
 --- !u!114 &2798727188006290073
 MonoBehaviour:
   m_ObjectHideFlags: 0

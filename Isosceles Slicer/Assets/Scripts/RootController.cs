@@ -95,6 +95,7 @@ public class RootController : MonoBehaviour
         {
             if (time >= period)
             {
+                _currentGrowth =_initialGrowth;
                 IsVulnerable = false;
                 break;
             }

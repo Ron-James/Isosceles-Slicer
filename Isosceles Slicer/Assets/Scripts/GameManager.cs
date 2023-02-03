@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
 
     public void Victory()
     {
+        GameInputEventSystem.instance.StopRumble();
         _musicBox.StopMusic();
         Time.timeScale = 0;
         _victoryScreen.SetActive(true);
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        GameInputEventSystem.instance.StopAllCoroutines();
         _musicBox.StopMusic();
         Time.timeScale = 0;
         _victoryScreen.SetActive(false);

@@ -89,6 +89,10 @@ public class GameInputEventSystem : MonoBehaviour
         moveDirection = Vector3.zero;
     }
 
+    public void StopRumble(){
+        StopAllCoroutines();
+    }
+
     // Update is called once per frame
     void Update()
     {
