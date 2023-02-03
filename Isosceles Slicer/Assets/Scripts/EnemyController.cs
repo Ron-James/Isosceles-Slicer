@@ -89,6 +89,8 @@ public class EnemyController : MonoBehaviour
                     float damagedRootGrowth = currentRootGrowth - damagePercent;
                     _targetRoot.ChangeSize(damagedRootGrowth);
                     _enemyEvents.EnemyDisable();
+                    GameInputEventSystem.instance.RumbleController(0.35f);
+                    
                 }
                 
                 break;
@@ -108,6 +110,7 @@ public class EnemyController : MonoBehaviour
                     float damagedRootGrowth = currentRootGrowth - damagePercent;
                     _targetRoot.ChangeSize(damagedRootGrowth);
                     _enemyEvents.EnemyDisable();
+                    GameInputEventSystem.instance.RumbleController(0.35f);
                 }
             break;
         }

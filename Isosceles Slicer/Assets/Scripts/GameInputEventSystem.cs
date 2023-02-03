@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System;
 
-public enum MovementState{
+public enum MovementState
+{
     stationary = 0,
     moving = 1,
     dashing = 2
 }
 public class GameInputEventSystem : MonoBehaviour
 {
+    Gamepad _gamepad;
+    Coroutine controllerRumble;
     [SerializeField] MovementState _movementState;
     #region Singleton_Code
     public static GameInputEventSystem instance;
@@ -26,7 +30,7 @@ public class GameInputEventSystem : MonoBehaviour
     {
         if (onDashEnter != null)
         {
-            
+
             _movementState = MovementState.dashing;
             onDashEnter();
         }
@@ -35,15 +39,17 @@ public class GameInputEventSystem : MonoBehaviour
     {
         if (onDashExit != null)
         {
-            if(moveDirection.magnitude > 0){
+            if (moveDirection.magnitude > 0)
+            {
                 _movementState = MovementState.moving;
                 Debug.Log("Is still moving");
             }
-            else{
+            else
+            {
                 Debug.Log("Is not still moving");
                 _movementState = MovementState.stationary;
             }
-            
+
             onDashExit();
         }
     }
@@ -60,14 +66,18 @@ public class GameInputEventSystem : MonoBehaviour
     public event Action onMovementEnter;
     public event Action onMovementExit;
 
-    public void MovementEnter(){
-        if(onMovementEnter != null){
+    public void MovementEnter()
+    {
+        if (onMovementEnter != null)
+        {
             onMovementEnter();
         }
     }
 
-    public void MovementExit(){
-        if(onMovementExit != null){
+    public void MovementExit()
+    {
+        if (onMovementExit != null)
+        {
             onMovementExit();
         }
     }
@@ -90,30 +100,64 @@ public class GameInputEventSystem : MonoBehaviour
 
         MovementInfo();
 
-        
+
 
     }
 
-    public void MovementInfo(){
+    public void MovementInfo()
+    {
         float xMovement = Input.GetAxisRaw("Horizontal");
         float yMovement = Input.GetAxisRaw("Vertical");
 
-        if(_movementState == MovementState.dashing){
+        if (_movementState == MovementState.dashing)
+        {
             return;
         }
-        else{
+        else
+        {
             moveDirection = new Vector3(xMovement, yMovement, 0).normalized;
         }
-        
 
-        if(moveDirection.magnitude > 0 && _movementState == MovementState.stationary){
+
+        if (moveDirection.magnitude > 0 && _movementState == MovementState.stationary)
+        {
             instance.MovementEnter();
             _movementState = MovementState.moving;
         }
-        else if(moveDirection.magnitude < 0.001f && _movementState == MovementState.moving){
+        else if (moveDirection.magnitude < 0.001f && _movementState == MovementState.moving)
+        {
             instance.MovementExit();
             _movementState = MovementState.stationary;
         }
-        
+
+    }
+    public void RumbleController(float duration)
+    {
+        controllerRumble = StartCoroutine(RumbleControllerRoutine(duration, 0.25f, 0.75f));
+    }
+    IEnumerator RumbleControllerRoutine(float duration, float lowFrequency, float highFrequency)
+    {
+        float time = 0;
+        _gamepad = Gamepad.current;
+        if (_gamepad != null)
+        {
+            _gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
+        }
+        while (true)
+        {
+            if (time >= duration)
+            {
+                if (_gamepad != null)
+                {
+                    _gamepad.SetMotorSpeeds(0, 0);
+                }
+                break;
+            }
+            else
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }

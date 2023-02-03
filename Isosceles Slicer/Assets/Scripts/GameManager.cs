@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
         RootController shortestRoot = _roots[0];
 
         foreach(RootController item in _roots){
-            if(item.CurrentRootLength() > shortest){
+            if(item.CurrentRootLength() < shortest){
                 shortest = item.CurrentRootLength();
                 shortestRoot = item;
             }
