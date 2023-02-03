@@ -7,6 +7,8 @@ public class RootController : MonoBehaviour
 {
     [SerializeField] Image _image;
     [SerializeField] Image _redImage;
+    [SerializeField] Image _vulnerableIndicator;
+    [SerializeField] float _vulnerableIndicatorFrequency = 5;
     private Coroutine _damageIndicatorRoutine;
     [SerializeField] AnimationCurve _damageIndicatorCurve;
     [SerializeField] BoxCollider2D _collider;
@@ -96,6 +98,7 @@ public class RootController : MonoBehaviour
     {
         float time = 0;
         IsVulnerable = true;
+        StartCoroutine(VulnerableIndicatorRoutine(_vulnerableIndicatorFrequency));
         while (true)
         {
             if (time >= period)
@@ -111,6 +114,27 @@ public class RootController : MonoBehaviour
             }
         }
 
+    }
+
+
+    IEnumerator VulnerableIndicatorRoutine(float frequency){
+        float time = 0;
+        float angularFrequency = 2 * Mathf.PI * frequency;
+        Color color = _vulnerableIndicator.color;
+        while(true){
+            if(!isVulnerable){
+                color.a = 0;
+                _vulnerableIndicator.color = color;
+                break;
+            }
+            else{
+                time += Time.deltaTime;
+                float alpha = Mathf.Abs(Mathf.Sin(angularFrequency * time));
+                color.a = alpha;
+                _vulnerableIndicator.color = color;
+                yield return null;
+            }
+        }
     }
 
     public void IndicateDamage(float duration)

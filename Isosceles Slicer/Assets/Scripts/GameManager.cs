@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -18,10 +20,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] RootController[] _roots = new RootController[4];
     [SerializeField] GameObject _core;
 
+    [Header("UI Things")]
     [SerializeField] GameObject _victoryScreen;
     [SerializeField] GameObject _gameOverScreen;
     [SerializeField] GameObject _pauseScreen;
-
+    [SerializeField] GameObject _resumeButton;
+    [SerializeField] GameObject _restartButtonVictory;
+    [SerializeField] GameObject _restartButtonGameOver;
+ 
     public static bool isPaused;
 
     [SerializeField] Sound _gameOverSound;
@@ -67,6 +73,8 @@ public class GameManager : MonoBehaviour
 
     public void Victory()
     {
+
+        EventSystem.current.SetSelectedGameObject(_restartButtonVictory);
         GameInputEventSystem.instance.StopRumble();
         _musicBox.StopMusic();
         Time.timeScale = 0;
@@ -79,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        EventSystem.current.SetSelectedGameObject(_restartButtonGameOver);
         GameInputEventSystem.instance.StopAllCoroutines();
         _musicBox.StopMusic();
         Time.timeScale = 0;
@@ -156,6 +165,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void PauseGame(){
+        EventSystem.current.SetSelectedGameObject(_resumeButton);
+        
         isPaused = true;
         Time.timeScale = 0;
         _pauseScreen.SetActive(true);
