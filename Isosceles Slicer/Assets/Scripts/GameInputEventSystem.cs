@@ -99,7 +99,7 @@ public class GameInputEventSystem : MonoBehaviour
     void Update()
     {
         currentDirection = moveDirection;
-        if (Input.GetButtonDown("Submit") && _movementState != MovementState.dashing)
+        if ((Input.GetButtonDown("Submit") || Input.GetMouseButtonDown(0)) && _movementState != MovementState.dashing)
         {
             instance.PlayerDashEnter();
         }
