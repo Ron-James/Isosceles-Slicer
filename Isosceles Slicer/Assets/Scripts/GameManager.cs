@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        GameInputEventSystem.instance.StopRumble();
         EventSystem.current.SetSelectedGameObject(_restartButtonGameOver);
         GameInputEventSystem.instance.StopAllCoroutines();
         _musicBox.StopMusic();
@@ -166,7 +167,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame(){
         EventSystem.current.SetSelectedGameObject(_resumeButton);
-        
+        GameInputEventSystem.instance.StopRumble();
         isPaused = true;
         Time.timeScale = 0;
         _pauseScreen.SetActive(true);

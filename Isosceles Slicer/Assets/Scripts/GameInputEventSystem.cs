@@ -90,9 +90,11 @@ public class GameInputEventSystem : MonoBehaviour
     }
 
     public void StopRumble(){
-        StopAllCoroutines();
+        if(_gamepad != null){
+            _gamepad.SetMotorSpeeds(0, 0);
+        }
     }
-
+    
     // Update is called once per frame
     void Update()
     {
